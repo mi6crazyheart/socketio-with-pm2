@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatty</title>
+    <link rel="stylesheet" href="./assets/css/style.css">    
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- HTML template from: https://www.bootdey.com/snippets/view/white-chat -->
+    <main class="content" id="app">
+        <div class="container p-0" style="margin-top:10px;">
+            <h1 class="h3 mb-3">Messages</h1>
+
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 col-xl-3 border-right">
+                       
+                        <a v-for="(user, index) in usersInOnline" v-if="user.userID != loginUserID" href="#" class="list-group-item list-group-item-action border-0">
+                            <div class="d-flex align-items-start">
+                                <img v-bind:src="'./assets/img/' + user.pimg" class="rounded-circle mr-1" alt="user.userName" width="40" height="40">
+                                <div class="flex-grow-1 ml-3">
+                                    {{user.userName}}
+                                    <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <hr class="d-block d-lg-none mt-1 mb-0">
+                    </div>
+                    <div class="col-12 col-lg-7 col-xl-9">
+
+                        <div class="position-relative">
+                            <div class="chat-messages p-4">
+
+                                <div v-for="(chat, index) in chats">
+                                    <div v-if="chat.fromID == loginUserID">
+                                        <div class="chat-message-right pb-4">
+                                            <div>
+                                                <img v-bind:src="'./assets/img/' + chat.pimg" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                                <div class="text-muted small text-nowrap mt-2">{{chat.dateTime}}</div>
+                                            </div>
+                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                <div class="font-weight-bold mb-1">You</div>
+                                                {{chat.msg}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-else>
+                                        <div class="chat-message-left pb-4">
+                                            <div>
+                                                <img v-bind:src="'./assets/img/' + chat.pimg" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                                <div class="text-muted small text-nowrap mt-2">{{chat.dateTime}}</div>
+                                            </div>
+                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+                                                <div class="font-weight-bold mb-1">{{chat.fromName}}</div>
+                                                {{chat.msg}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            <div class="input-group">
+                                <input v-model="userMsg" type="text" class="form-control" placeholder="Type your message">
+                                <button v-on:click="sendUserMsg" class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main> 
+    
+    <script src="./assets/js/socket.io.min.js"></script>
+    <script src="./assets/js/vue.js"></script>
+    <script src="./assets/js/moment.min.js"></script>
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>
